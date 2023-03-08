@@ -1,2 +1,2 @@
 #!/bin/bash
-parent_dir=$(dirname "$(pwd)") find . -maxdepth 1 -name "*.html" -type f -newer "$parent_dir" -exec sh -c 'cp -n "$1" "${1##*/}"' _ {} \
+parent_dir=$(dirname "$(pwd)"); for file in *.html; do if [ "$file" -nt "$parent_dir/$file" ]; then cp -n "$file" "$parent_dir"; fi; done;
