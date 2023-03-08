@@ -1,2 +1,2 @@
 #!/bin/bash
-parent_dir=$(dirname "$(pwd)"); for file in *.html; do if [ "$file" -nt "$parent_dir/$file" ]; then cp -n "$file" "$parent_dir"; fi; done;
+cp -u *.html ..
