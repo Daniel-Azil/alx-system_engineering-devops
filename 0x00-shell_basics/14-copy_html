@@ -1,2 +1,2 @@
 #!/bin/bash
-parent_dir=$(dirname "$(pwd)") find . -maxdepth 1 -name "*.html" -type f -newer "$parent_dir" -exec sh -c 'cp -n "$1" "${1##*/}"' _ {} \;
+parent_dir=$(dirname "$(pwd)") find . -maxdepth 1 -name "*.html" -type f -newer "$parent_dir" -exec sh -c 'cp -n "$1" "${1##*/}"' _ {} \
