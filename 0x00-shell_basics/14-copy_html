@@ -1,2 +1,2 @@
 #!/bin/bash
-parent_dir=$(dirname "$(pwd)") find . -maxdepth 1 -name "*.html" -type f -newer "$parent_dir" -exec cp -n {} "$parent_dir" \ && touch /tmp/file_0.html && chmod 644 /tmp/file_0.html
+parent_dir=$(dirname "$(pwd)") find . -maxdepth 1 -name "*.html" -type f -newer "$parent_dir" -exec sh -c 'cp -n "$1" "${1##*/}"' _ {} \;
