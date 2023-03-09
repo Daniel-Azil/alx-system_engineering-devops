@@ -1,2 +1,2 @@
 #!/bin/bash
-if [ $(stat -c '%U' hello) = "betty" ] then sudo chown guillaume hello fi
+sudo find ./ -maxdepth 1 -user guillaume -name home -exec chown betty {} +
