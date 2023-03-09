@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo find ./ -maxdepth 1 -user guillaume -name home -exec chown betty {} +
+chown --from=guillaume betty hello
