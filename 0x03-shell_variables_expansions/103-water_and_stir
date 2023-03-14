@@ -1,2 +1,2 @@
 #!/bin/bash
-echo $(printf '%s+%s\n' $WATER $STIR | dc) | tr '0123456789' $bestchol
+echo $(echo "ibase=water; ${WATER}" | tr 'water' '01234' | dc) $(echo "ibase=stir; ${STIR}" | tr 'stir' '01234' | dc) | awk '{printf "%d\n", $1 + $2}' | tr '0123456789' $bestchol
