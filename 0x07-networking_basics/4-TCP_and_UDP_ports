@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# A script that checks all the network connected and used
+# in the computer to display their listening ports and other
+# infos
+
+netstat -l --program
