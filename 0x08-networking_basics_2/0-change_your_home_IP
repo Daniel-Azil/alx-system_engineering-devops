@@ -3,7 +3,7 @@
 # Modifies the localhost IP address to 127.0.0.2 and adds 8.8.8.8
 # as an alias for facebook.com in the hosts file.
 
-cp /etc/hosts az_hosts
-sed -i s/^127.*/"127.0.0.2 localhost"/ az_hosts
-echo "8.8.8.8 facebook.com" >> az_hosts
-cp az_hosts /etc/hosts
+cp /etc/hosts ~/hosts.new
+sed -i 's/^127.0.0.2 localhost/127.0.0.2 localhost/' ~/hosts.new
+echo "8.8.8.8 facebook.com" >> ~/hosts.new
+cp -f ~/hosts.new /etc/hosts
