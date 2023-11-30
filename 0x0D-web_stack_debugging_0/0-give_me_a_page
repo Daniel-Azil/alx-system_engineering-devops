@@ -5,11 +5,3 @@ echo "Hello Holberton" > /var/www/html/index.html
 
 echo "ServerName localhost" >> /etc/apache2/apache2.conf
 service apache2 start
-
-if service apache2 status | grep -q "apache2 is running"; then
-  echo "apache2 is running"
-fi
-
-if curl -s http://localhost/ | grep -q "Hello Holberton"; then
-  echo "Hello Holberton"
-fi
