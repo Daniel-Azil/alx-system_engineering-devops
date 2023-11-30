@@ -1,4 +1,4 @@
-#!/usr/bin env bash
+#!/usr/bin/env bash
 # SSH into server with IP 54.87.156.183 
 # using 'school' key and username 'ubunut'.
 
