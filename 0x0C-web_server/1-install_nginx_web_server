@@ -1,7 +1,7 @@
 #!/usr/bin/env bash 
 # A script that installs nginx server and displays html content
 
-sudo apt-get update -y
-sudo apt-get install nginx -y
+sudo apt-get -y update
+sudo apt-get -y install nginx
 echo "Hello World!" > /var/www/html/index.nginx-debian.html
 sudo service nginx start
