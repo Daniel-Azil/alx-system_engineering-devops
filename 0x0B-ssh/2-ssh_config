@@ -1,6 +1,0 @@
-# SSH config that sets that PasswordAuthentication to none
-# and sets the identityFile to ~/.ssh/school
-
-HOST *
-    PasswordAuthentication no
-    IdentityFile ~/.ssh/school
