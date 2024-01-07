@@ -1,0 +1,28 @@
+#!/usr/bin/env bash 
+# A script that installs nginx server and displays html content
+
+sudo apt-get -y update
+# a command that installs nginx
+sudo apt-get -y install nginx
+
+# a command that start the nginx server
+sudo service nginx start
+
+# A command that permission for nginx to access the firewall
+sudo ufw allow 'Nginx HTTP'
+
+# a command that give the user ownership to website files for easy editing
+sudo chown -R "$USER":"$USER" /var/www/html
+
+# This command grants read, write, and execute permissions to the owner, and read and execute
+# permissions to the group and others for the /var/www directory and its contents.
+sudo chmod -R 755 /var/www
+
+# comman that backup default index
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+# a command that creates a new index
+echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
+
+# finally restart the server
+sudo service nginx restart
