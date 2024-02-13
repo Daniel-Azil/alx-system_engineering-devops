@@ -1,3 +1,6 @@
+# A script that configure ufw so that it blocks all incoming traffic,
+# except the following TCP ports given below.
+
 sudo ufw allow ssh
 sudo ufw allow 22/tcp
 sudo ufw allow 443/tcp
