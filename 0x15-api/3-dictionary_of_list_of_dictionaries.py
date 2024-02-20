@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """
-Request from API; Return TODO list progress of all employees
-Export this content to JSON
+A module that requests from API; Return TODO list and
+    export this content to JSON.
 """
 import json
 import requests
