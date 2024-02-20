@@ -13,11 +13,11 @@ This project is a collection of Python scripts that use a REST API to gather dat
 
 To use this project, you need to clone this repository and run the scripts with a valid employee ID as a parameter. For example:
 
-```bash
+<pre>
 git clone https://github.com/alx-system_engineering-devops/0x15-api.git
 cd 0x15-api
 python3 0-gather_data_from_an_API.py 2
-
+</pre>
 The scripts will display or save the employee TODO list progress in the following formats:
 
 •  0-gather_data_from_an_API.py: Displays the employee name and the number and title of completed tasks on the standard output.
