@@ -1,35 +1,61 @@
 #!/usr/bin/env bash
+# Shebang line specifying the interpreter to use (Bash)
 
-# Configure web-02 to mirror the settings of web-01
-# Introduce a custom HTTP header with the name X-Served-By
-# Populate the custom HTTP header with the hostname of the Nginx server
+# configure web-02 to be identical to web-01
+
+# The name of the custom HTTP header must be X-Served-By
+# Comment specifying the requirement for the custom HTTP header name
+
+# The value of the custom HTTP header must be the hostname of the server Nginx is running on
+# Comment specifying the requirement for the custom HTTP header value
+
+#sudo sed -i 's/server\_name _;.\*/server_name _;\\n\\tadd_header X-Served-By \\$hostname;/' /etc/nginx/sites-enabled/default
+# Commented out line using 'sed' to modify the Nginx configuration file
 
 sudo apt-get -y update
+# Command to update the package lists
+
 sudo apt-get -y install nginx
+# Command to install the Nginx web server
+
 sudo ufw allow 'Nginx HTTP'
+# Command to configure the firewall to allow HTTP traffic for Nginx
+
 sudo mkdir -p /var/www/html /var/www/error
+# Command to create the /var/www/html and /var/www/error directories
+
 sudo chmod -R 755 /var/www
+# Command to set permissions for the /var/www directory and its contents
+
 echo 'Hello World!' > /var/www/html/index.html
-echo "This is not a valid web page." > /var/www/html/404.html
-nginx_configuration=\
+# Command to create the index.html file with the 'Hello World!' content
+
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+# Command to create the 404.html file with the 'Ceci n'est pas une page' content
+
+server\_config=\\
 "server {
-listen 80 default_server;
-listen [::]:80 default_server;
+listen 80 default\_server;
+listen \[::\]:80 default\_server;
 root /var/www/html;
 index index.html index.htm index.nginx-debian.html;
-server_name _;
-add_header X-Served-By \$hostname;
+server\_name \_;
+add\_header X-Served-By \\$hostname;
 location / {
-try_files \$uri \$uri/ =404;
+try\_files \\$uri \\$uri/ =404;
 }
-if (\$request_filename ~ redirect_me){
+if (\\$request\_filename ~ redirect\_me){
 rewrite ^ https://youtube.com permanent;
 }
-error_page 404 /404.html;
+error\_page 404 /404.html;
 location = /404.html {
 internal;
 }
 }"
+# Multi-line string assignment for the server_config variable containing the Nginx configuration
 
-echo "$nginx_configuration" > /etc/nginx/sites-enabled/default
+echo "$server\_config" > /etc/nginx/sites-enabled/default
+# Command to write the server_config content to the Nginx configuration file
+
 sudo service nginx restart
+# Command to restart the Nginx service to apply the changes
