@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-# A command that installs haproxy.
+# Update package lists
+sudo apt-get update
 
-apt-get -y install haproxy
+# A command that installs haproxy
+sudo apt-get -y install haproxy
 
 # Modifies the configuration for haproxy
 backend_frontend_config=\
@@ -13,15 +15,16 @@ frontend  azil-frontend-config
         default_backend azil-backend-config
 backend azil-backend-config
         balance roundrobin
-        server 313912-web-01 3.94.213.246 check
-        server 313912-web-02 54.175.54.105 check
+        server 313912-web-01 54.236.232.200 check
+        server 313912-web-02 3.95.32.126 check
 "
- echo "$backend_frontend_config" >> /etc/haproxy/haproxy.cfg
+sudo echo "$backend_frontend_config" >> /etc/haproxy/haproxy.cfg
 
- # A command that configures haproxy to start by init script
- # however making it to start right after the servers boots.
+# Enable the HAProxy service to be managed by the init script
+sudo echo "ENABLED=1" >> /etc/default/haproxy
 
- echo "ENABLED=1" >> /etc/default/haproxy
+# Enable the HAProxy service to start at boot time (systemd)
+sudo systemctl enable haproxy
 
- sudo service haproxy restart
- 
+# Restart the HAProxy service to apply the changes
+sudo service haproxy restart
