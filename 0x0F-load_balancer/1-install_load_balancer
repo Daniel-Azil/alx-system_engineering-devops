@@ -1,30 +1,20 @@
 #!/usr/bin/env bash
+# Configure server with: HAproxy version 1.5 or greater
+# Distributes request using roundrobin; sends traffic to servers: web-01 and web-02
 
-# Update package lists
+CFG="\\\nlisten appname 0.0.0.0:80\n\tmode http\n\tbalance roundrobin\n\toption httpclose\n\toption forwardfor\n\tserver 313912-web-01 54.236.232.200 check\n\tserver 313912-web-02 3.95.32.126 check\n"
+
 sudo apt-get update
+sudo apt-get -y install nginx
+sudo apt-get install -y haproxy=1.5\*
 
-# A command that installs haproxy
-sudo apt-get -y install haproxy
+# Make sure HAproxy can be managed via an init script
+sudo sed -i "s/ENABLED=0/ENABLED=1/" /etc/default/haproxy
 
-# Modifies the configuration for haproxy
-backend_frontend_config=\
-"
-frontend  azil-frontend-config
-        bind *:80
-        mode http
-        default_backend azil-backend-config
-backend azil-backend-config
-        balance roundrobin
-        server 313912-web-01 54.236.232.200 check
-        server 313912-web-02 3.95.32.126 check
-"
-sudo echo "$backend_frontend_config" >> /etc/haproxy/haproxy.cfg
+# Backup original config file before attempt modifications
+sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
 
-# Enable the HAProxy service to be managed by the init script
-sudo echo "ENABLED=1" >> /etc/default/haproxy
+# Configure to include roundrobin and two servers
+sudo sed -i "\$a $CFG" /etc/haproxy/haproxy.cfg
 
-# Enable the HAProxy service to start at boot time (systemd)
-sudo systemctl enable haproxy
-
-# Restart the HAProxy service to apply the changes
-sudo service haproxy restart
+sudo service haproxy start
