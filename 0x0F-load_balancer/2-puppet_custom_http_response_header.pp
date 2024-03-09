@@ -1,48 +1,42 @@
-# Using Puppet for configuration management of previous implementations.
-include stdlib
-
-$url = 'https://www.youtube.com/'
-$redirection = "\trewrite ^/redirect_me/$ ${url} permanent;"
-$specified_header = "add_header X-Served-By \$hostname;"
-
-exec { 'update packages':
-  command => '/usr/bin/apt-get update'
-}
-
-exec { 'restart nginx':
-  command => '/usr/sbin/service nginx restart',
-  require => Package['nginx']
-}
-
 package { 'nginx':
-  ensure  => 'installed',
-  require => Exec['update packages']
+  ensure => 'installed',
 }
 
 file { '/var/www/html/index.html':
-  ensure  => 'present',
-  redirection => 'Hello World!',
-  mode    => '0644',
-  owner   => 'root',
-  group   => 'root'
+  ensure  => 'file',
+  content => 'Hello World',
 }
 
-file_line { 'Set 301 redirection':
-  ensure   => 'present',
-  after    => 'server_name\ _;',
-  path     => '/etc/nginx/sites-available/default',
-  multiple => true,
-  line     => $redirection,
-  notify   => Exec['restart nginx'],
-  require  => File['/var/www/html/index.html']
+file { '/var/www/html/404.html':
+  ensure  => 'file',
+  content => 'Ceci n\'est pas une page',
 }
 
-file_line { 'Set X-Served-By header':
-  ensure   => 'present',
-  after    => 'http {',
-  path     => '/etc/nginx/nginx.conf',
-  multiple => true,
-  line     => $specified_header,
-  notify   => Exec['restart nginx'],
-  require  => File['/var/www/html/index.html']
+file { '/etc/nginx/sites-available/default':
+  ensure  => 'file',
+  content => "
+    server {
+      listen 80 default_server;
+      listen [::]:80 default_server;
+      add_header X-Served-By $::hostname;
+      root   /var/www/html;
+      index  index.html index.htm;
+
+      location /redirect_me {
+          return 301 http://cuberule.com/;
+      }
+
+      error_page 404 /404.html;
+      location /404 {
+        root /var/www/html;
+        internal;
+      }
+    }
+  ",
+}
+
+service { 'nginx':
+  ensure    => 'running',
+  enable    => true,
+  subscribe => File['/etc/nginx/sites-available/default'],
 }
