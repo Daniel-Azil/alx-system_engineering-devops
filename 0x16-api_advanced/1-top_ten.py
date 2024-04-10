@@ -7,12 +7,13 @@ import requests
 
 def number_of_subscribers(subreddit):
     """
-        A function that queries the reddit API and returns the number of subscribers
+        A function that queries the reddit API and returns the number of
+        subscribers
     """
 
     url = 'https://api.reddit.com/r/{}/about/.json'.format(subreddit)
 
-    user_agent = {'User-Agent': 'DanielAzilAdvancedAPI/1.0 (by /u/Daniel_Azil)'}
+    user_agent = {'User-Agent': 'D_AzilAdvancedAPI/1.0 (by /u/Daniel_Azil)'}
 
     response = requests.get(url, headers=user_agent)
 
