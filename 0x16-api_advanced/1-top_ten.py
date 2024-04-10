@@ -5,7 +5,7 @@
 import requests
 
 
-def number_of_subscribers(subreddit):
+def top_ten(subreddit):
     """
         A function that queries the reddit API and returns the number of
         subscribers
