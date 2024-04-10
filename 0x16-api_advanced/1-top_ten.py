@@ -11,7 +11,7 @@ def top_ten(subreddit):
         subscribers
     """
 
-    url = 'https://api.reddit.com/r/{}/about/.json'.format(subreddit)
+    url = 'https://api.reddit.com/r/{}/hot/'.format(subreddit)
 
     user_agent = {'User-Agent': 'D_AzilAdvancedAPI/1.0 (by /u/Daniel_Azil)'}
 
